@@ -102,12 +102,11 @@ def get_optimized_args(args):
     return args
 
 
-# Modify the existing get_args function to include optimizations
-def get_args(parser=None, apply_optimizations=True):
-    # In discrete_mbrl/training_helpers.py inside get_args()
+# In discrete_mbrl/training_helpers.py
 
-    parser.add_argument('--commitment-cost', type=float, default=0.25,
-                        help='Commitment cost for VQ-VAE beta')
+def get_args(parser=None, apply_optimizations=True):
+    """Initializes the argument parser and returns the parsed arguments."""
+    # Ensure make_argparser is called only once.
     parser = make_argparser(parser)
     args = parser.parse_args()
     args = process_args(args)
@@ -258,6 +257,9 @@ def make_argparser(parser=None):
     if parser is None:
         parser = argparse.ArgumentParser()
 
+    # The argument has been moved here, where it belongs.
+    parser.add_argument('--commitment-cost', type=float, default=0.25,
+                        help='Commitment cost for VQ-VAE beta')
     parser.add_argument('-e', '--env_name', type=str, default='MiniGrid-MultiRoom-N2-S4-v0')
     parser.add_argument('-t', '--ae_model_type', type=str, default='ae')
     parser.add_argument('-v', '--ae_model_version', type=str, default='2')
